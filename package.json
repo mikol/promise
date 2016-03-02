@@ -1,0 +1,34 @@
+{
+  "name": "promise",
+  "version": "0.0.1",
+  "description": "Promise polyfill for ES3/ES5.",
+  "main": "promise.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikol/promise.git"
+  },
+  "keywords": [
+    "Polyfill",
+    "Promise"
+  ],
+  "author": {
+    "name": "Mikol Graves",
+    "email": "mikol@thinbox.org",
+    "url": "https://mikol.github.io/"
+  },
+  "license": "CC-BY-SA-4.0",
+  "bugs": {
+    "url": "https://github.com/mikol/promise/issues"
+  },
+  "homepage": "https://github.com/mikol/promise#readme",
+  "dependencies": {
+    "defer": "git+https://github.com/mikol/defer.git",
+    "instance": "git+https://github.com/mikol/instance.git",
+    "is": "git+https://github.com/mikol/is.git",
+    "noop": "git+https://github.com/mikol/noop.git",
+    "type": "git+https://github.com/mikol/type.git"
+  }
+}
