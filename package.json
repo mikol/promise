@@ -4,7 +4,7 @@
   "description": "Promise polyfill for ES3/ES5.",
   "main": "promise.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/criteria/bin/criteria test"
   },
   "repository": {
     "type": "git",
@@ -30,5 +30,8 @@
     "is": "git+https://github.com/mikol/is.git",
     "noop": "git+https://github.com/mikol/noop.git",
     "type": "git+https://github.com/mikol/type.git"
+  },
+  "devDependencies": {
+    "criteria": "git+https://github.com/mikol/criteria.git"
   }
 }
