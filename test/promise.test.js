@@ -1,6 +1,6 @@
 'use strict';
 
-require('../lib/criteria/criteria'); /* globals scope, test */
+require('criteria'); /* globals scope, test */
 
 const is = require('is');
 const PolyfillPromise = require('promise');
