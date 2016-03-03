@@ -3,7 +3,7 @@
 require('criteria'); /* globals scope, test */
 
 const is = require('is');
-const PolyfillPromise = require('promise');
+const PolyfillPromise = require('../polyfill');
 
 scope('Polyfill Promise Tests',
 function () {
