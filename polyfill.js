@@ -52,7 +52,7 @@ function factory(defer, instance, is, noop, type) {
         for (var x = 0, nx = pending; x < nx; ++x) {
           var promise = promises[x];
 
-          if (!promise || !promise.then) {
+          if (!is.thenable(promise)) {
             promise = PollyfillPromise.resolve(promise);
             --pending;
           }
@@ -84,7 +84,7 @@ function factory(defer, instance, is, noop, type) {
         for (var x = 0, nx = promises.length; x < nx; ++x) {
           var promise = promises[x];
 
-          if (!promise || !promise.then) {
+          if (!is.thenable(promise)) {
             _resolve(promise);
             break;
           }
@@ -194,14 +194,15 @@ function factory(defer, instance, is, noop, type) {
       var s = 'pending';
 
       if (this.state === PromiseState.FULFILLED) {
-        var t = typeof this.value;
-        if (!this.value) {
-          s = this.value;
+        var value = this.value;
+        var t = typeof value;
+        if (!value) {
+          s = value;
         } if (t === 'boolean' || t === 'number' || t === 'string') {
-          s = JSON.stringify(this.value);
+          s = JSON.stringify(value);
         } else {
-          s = (this.value.constructor ? this.value.constructor.name : '') +
-              Object.prototype.toString(this.value);
+          s = (is.def(value.constructor) ? value.constructor.name : '') +
+              Object.prototype.toString(value);
         }
       } else if (this.state === PromiseState.REJECTED) {
         s = 'rejected: ' + this.reason;
@@ -312,7 +313,7 @@ function factory(defer, instance, is, noop, type) {
       var then;
       var unresolved = true;
 
-      if (x) {
+      if (is.object(x)) {
         if (x.constructor === PollyfillPromise) {
           // 2.3.2 If x is a promise, adopt its state.
           unresolved = false;
@@ -347,38 +348,36 @@ function factory(defer, instance, is, noop, type) {
             reject(promise, reason);
           });
         } else {
-          if (is.object(x)) {
-            // 2.3.3 Otherwise, if `x` is an object or function...
+          // 2.3.3 Otherwise, if `x` is an object or function...
+          try {
+            // 2.3.3.1 Let `then` be `x.then`.
+            then = x.then;
+          } catch (e) {
+            // 2.3.3.2 If retrieving the property `x.then` results in a thrown
+            // exception `e`, reject `promise` with `e` as the reason.
+            reject(promise, e);
+            return;
+          }
+
+          if (is.function(then)) {
+            // 2.3.3.3 If `then` is a function, call it with `x` as this,
+            // first argument `resolvePromise`, and second argument
+            // `rejectPromise`.
+            unresolved = false;
+
             try {
-              // 2.3.3.1 Let `then` be `x.then`.
-              then = x.then;
+              then.call(x,
+                // 2.3.3.3.1 If/when `resolvePromise` is called with a value
+                // `y`, run [[Resolve]](promise, y).
+                resolve.bind(U, promise),
+                // 2.3.3.3.2 If/when `rejectPromise` is called with a reason
+                // `r`, reject promise with r.
+                reject.bind(U, promise));
             } catch (e) {
-              // 2.3.3.2 If retrieving the property `x.then` results in a thrown
-              // exception `e`, reject `promise` with `e` as the reason.
+              // 2.3.3.3.4 If calling `then` throws an exception `e`...
+              // 2.3.3.3.4.2 Reject `promise` with `e` as the reason.
               reject(promise, e);
               return;
-            }
-
-            if (is.function(then)) {
-              // 2.3.3.3 If `then` is a function, call it with `x` as this,
-              // first argument `resolvePromise`, and second argument
-              // `rejectPromise`.
-              unresolved = false;
-
-              try {
-                then.call(x,
-                  // 2.3.3.3.1 If/when `resolvePromise` is called with a value
-                  // `y`, run [[Resolve]](promise, y).
-                  resolve.bind(U, promise),
-                  // 2.3.3.3.2 If/when `rejectPromise` is called with a reason
-                  // `r`, reject promise with r.
-                  reject.bind(U, promise));
-              } catch (e) {
-                // 2.3.3.3.4 If calling `then` throws an exception `e`...
-                // 2.3.3.3.4.2 Reject `promise` with `e` as the reason.
-                reject(promise, e);
-                return;
-              }
             }
           }
         }
