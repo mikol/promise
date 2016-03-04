@@ -1,0 +1,23 @@
+{
+  "eqnull": true,
+  "esnext": true,
+  "globals": {
+    "__dirname": true,
+    "__filename": true,
+    "Buffer": true,
+    "clearTimeout": true,
+    "console": true,
+    "define": true,
+    "exports": true,
+    "global": true,
+    "module": true,
+    "process": true,
+    "require": true,
+    "setImmediate": true,
+    "setTimeout": true,
+    "window": true
+  },
+  "globalstrict": true,
+  "laxbreak": true,
+  "unused": true
+}

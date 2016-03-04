@@ -1,0 +1,21 @@
+{
+  "disallowSpacesInAnonymousFunctionExpression": null,
+  "disallowSpacesInFunctionExpression": null,
+  "jsDoc": {
+    "checkAnnotations": "jsdoc3"
+  },
+  "maximumLineLength": {
+    "value": 80,
+    "allExcept": [ "regex", "urlComments"]
+  },
+  "preset": "google",
+  "requireOperatorBeforeLineBreak": false,
+  "requireSpacesInAnonymousFunctionExpression": {
+    "beforeOpeningRoundBrace": true,
+    "beforeOpeningCurlyBrace": true
+  },
+  "validateQuoteMarks": {
+    "mark": "'",
+    "escape": true
+  }
+}
