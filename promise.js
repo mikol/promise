@@ -8,7 +8,12 @@ var id = 'Promise';
 var dependencies = Promise ? [] : ['./polyfill'];
 
 function factory(Polyfill) {
-  return Polyfill || Promise;
+  var PromiseConstructor = Polyfill || Promise;
+
+  // ES3-compatible alias for `Promise.prototype.catch()`.
+  PromiseConstructor._catch = PromiseConstructor['catch'];
+
+  return PromiseConstructor;
 }
 
 // -----------------------------------------------------------------------------
