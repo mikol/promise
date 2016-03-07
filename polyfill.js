@@ -116,7 +116,7 @@ function factory(defer, instance, is, noop, type) {
       }
     },
 
-    catch: function (onRejected) {
+    'catch': function (onRejected) {
       return this.then(U, onRejected);
     },
 
