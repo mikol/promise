@@ -37,7 +37,7 @@ function factory(defer, instance, is, noop, type) {
     executor.call(this, resolve.bind(U, this), reject.bind(U, this));
   }
 
-  type(PollyfillPromise)['implements']({
+  type(PollyfillPromise).$implements({
     all: {
       static: function PollyfillPromise$all(promises) {
         var next = new PollyfillPromise(noop);
